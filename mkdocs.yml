@@ -1,0 +1,8 @@
+site_name: AI Context Hub
+theme:
+  name: material
+docs_dir: .
+exclude_docs: |-
+  (^|/)\.
+nav:
+  - Home: README.md
