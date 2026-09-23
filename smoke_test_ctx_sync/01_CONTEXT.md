@@ -1,3 +1,3 @@
-# Contexto da sessão
+# Teste de integração do ctx-sync
 
-Descreva o contexto principal desta sessão.
+Ambiente criado automaticamente.
