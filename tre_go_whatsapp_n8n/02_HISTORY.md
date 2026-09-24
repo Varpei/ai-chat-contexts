@@ -1,3 +1,21 @@
-# Histórico da sessão
+# Histórico da sessão legada
 
-Registre aqui as decisões e alterações realizadas.
+- Foi definido o escopo da POC de automação de atendimento WhatsApp do TRE-GO, com n8n para orquestração e Evolution API para integração com WhatsApp.
+- Foi criada a documentação inicial do projeto e estabelecida a regra de manter código completo, explicações didáticas e um diário de evolução.
+- Foi criado o fluxo de conexão da instância `TRE_POC`, incluindo geração e leitura de QR Code.
+- A imagem inicial da Evolution API falhou; a infraestrutura foi ajustada para `evoapicloud/evolution-api:latest`.
+- A Evolution API não suportou SQLite nessa configuração; PostgreSQL foi adicionado ao Docker Compose com dependência de inicialização.
+- A infraestrutura passou a incluir n8n, Evolution API e PostgreSQL; Redis também foi adicionado depois para resolver desconexões contínuas da sessão.
+- A instância WhatsApp chegou ao estado `open` após a autenticação por QR Code.
+- O workflow n8n foi montado com Webhook de entrada, chamada HTTP ao Ollama e envio da resposta pela Evolution API.
+- Foram corrigidos problemas de endpoint e topologia: `ollama.internal` foi substituído por `host.docker.internal`, e o envio interno passou a usar os nomes/rotas adequados dos contêineres.
+- O Webhook da Evolution API inicialmente retornou HTTP 400 porque o payload estava incorreto; a API exigia a chave `webhook` na raiz. O formato foi corrigido e validado.
+- O workflow passou a aceitar as variações reais de payload da Evolution API (`body.data` e `data`) e a normalizar o número antes do envio.
+- Identificadores `id` e `webhookId` do n8n foram restaurados depois de uma publicação manual causar HTTP 500.
+- Foi criado um diagnóstico geral para verificar Evolution API, estado da instância, Webhook, n8n e Ollama.
+- A causa de uma interrupção posterior foi identificada como `401 conflict - device_removed`: o WhatsApp removeu o dispositivo vinculado, não sendo falha do Webhook ou do n8n.
+- Um novo QR Code foi gerado e a instância foi reconectada; o estado esperado voltou a ser `open`.
+- A decisão foi congelar a infraestrutura local para a apresentação e não migrar ainda para a API institucional HTTPS do TRE-GO.
+- A lógica do System Prompt foi refinada para triagem SESRE: intenção, nome, cargo, lotação, contato, categoria, resumo do chamado e recusa de assuntos fora de TI.
+- A futura integração com GLPI foi estabelecida como objetivo de produção, sem alterar o fluxo validado da POC.
+- Ao final da transcrição, foi solicitado consolidar o contexto em arquivos Markdown e versioná-lo no GitHub.
